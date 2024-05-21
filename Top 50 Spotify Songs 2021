@@ -1,0 +1,117 @@
+
+-- Top 50 most listened songs in the world for year 2021 in Spotify. This dataset has 14 descriptive variables about the songs.
+--Source: Kaggle https://www.kaggle.com/datasets/equinxx/spotify-top-50-songs-in-2021
+--Queried using: SQLite Online IDE
+
+
+SELECT * FROM spotify_top50_2021;
+
+-- What are the top 10 most popular songs?
+
+SELECT * FROM spotify_top50_2021
+ORDER By Popularity DESC
+LIMIT 10;
+
+
+-- Which song has the highest energy?
+
+SELECT * FROM spotify_top50_2021
+ORDER BY energy DESC
+LIMIT 1;
+
+
+--How many songs are there for each key?
+
+SELECT keys, COUNT(*) AS song_count
+FROM spotify_top50_2021
+GROUP BY keys
+ORDER BY keys DESC;
+
+
+-- Find the song with the highest loudness.
+
+SELECT track_name FROM spotify_top50_2021
+ORDER BY loudness DESC
+LIMIT 1;
+
+
+-- What is the average tempo of songs that have a high speechiness (above 0.5)?
+
+SELECT AVG(tempo) AS avg_tempo
+FROM spotify_top50_2021
+WHERE speechiness > 0.5;
+
+
+-- List all songs with a valence greater than 0.8 and energy greater than 0.8.
+
+SELECT track_name AS song_list
+FROM spotify_top50_2021
+WHERE valence > 0.8 AND energy > 0.8;
+
+
+--  What is the distribution of songs across different time signatures?
+
+SELECT time_signature, COUNT(*) AS song_count
+FROM spotify_top50_2021
+GROUP BY time_signature;
+
+
+-- Find the longest song in terms of duration.
+
+SELECT track_name FROM spotify_top50_2021
+ORDER BY duration_ms DESC
+LIMIT 1;
+
+
+-- What is the average popularity of acoustic songs (acousticness > 0.7)?
+
+SELECT AVG(popularity) as avg_popularity
+FROM spotify_top50_2021
+WHERE acousticness > 0.7;
+
+
+-- List all songs with a tempo between 120 and 130 BPM.
+
+SELECT track_name FROM spotify_top50_2021
+WHERE tempo BETWEEN 120 AND 130;
+
+
+-- What is the average loudness of songs in each key?
+
+SELECT keys, AVG(loudness) as avd_loudness
+FROM spotify_top50_2021
+GROUP BY keys;
+
+
+--What is the average danceability by artist? 
+
+SELECT artist_name, AVG(danceability) as avg_danceability
+FROM spotify_top50_2021
+GROUP BY danceability
+ORDER BY avg_danceability DESC;
+
+
+--Calculate the average popularity for the artists in the Spotify data table. Then, for every artist with an average popularity of 90 or above, show their name, their average popularity, and label them as a “Top Star."
+
+SELECT 
+    artist_name AS top_artist,
+    artist_popularity,
+    CASE 
+        WHEN artist_popularity >= 90 THEN 'Top Star'
+        ELSE NULL
+    END AS label
+FROM (
+    SELECT 
+        artist_name,
+        AVG(popularity) AS artist_popularity
+    FROM 
+        spotify_top50_2021
+    GROUP BY 
+        artist_name
+) AS avg_popularity_by_artist
+WHERE 
+    artist_popularity >= 90
+ORDER BY 
+    artist_popularity DESC;
+
+
