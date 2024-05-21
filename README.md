@@ -17,7 +17,7 @@ For this project, I started with a very small dataset to get my hands dirty with
 
 If you have any questions, feedback, or just want to connect, feel free to reach out:
 
-- [Aly](mailto:alybalmes@gmail.com)
+- [Email me](mailto:alybalmes@gmail.com)
 - [LinkedIn](https://www.linkedin.com/in/alybalmes/)
 - [Tableau](https://public.tableau.com/app/profile/aly.balmes/vizzes)
 
